@@ -5,7 +5,8 @@ import UIKit
 
 // Image for UIKit
 class GUAvatarImageView: UIImageView {
-	let placeholderImage = Images.avatarPlaceholder
+	let placeholderImage 	= Images.avatarPlaceholder
+	let skeletonView		= SkeletonView(frame: .zero)
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -28,11 +29,31 @@ class GUAvatarImageView: UIImageView {
 		translatesAutoresizingMaskIntoConstraints = false
 	}
 	
-	func loadImage(fromURL url: String) {
-		NetworkManager.shared.downloadImage(from: url) { uiImage in
-			guard let uiImage else { return }
+	private func showSkeleton() {
+		addSubview(skeletonView)
+		NSLayoutConstraint.activate([
+			skeletonView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			skeletonView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			skeletonView.topAnchor.constraint(equalTo: topAnchor),
+			skeletonView.bottomAnchor.constraint(equalTo: bottomAnchor)
+		])
+	}
+	
+	private func hideSkeleton() {
+		skeletonView.removeFromSuperview()
+	}
+	
+	func loadImage(fromURL url: String, at indexPath: IndexPath?) {
+		showSkeleton()
+		NetworkManager.shared.downloadImage(from: url) { [weak self] uiImage in
+			guard let uiImage, let self else { return }
 			DispatchQueue.main.async {
-				self.image = uiImage
+				if let indexPath, indexPath.row % 4 == 3 {
+					self.image = self.invertColors(uiImage)
+				} else {
+					self.image = uiImage
+				}
+				self.hideSkeleton()
 			}
 		}
 	}

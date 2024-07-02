@@ -22,14 +22,17 @@
 		599E0E492C2525AB0043E464 /* GUImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E482C2525AB0043E464 /* GUImageView.swift */; };
 		599E0E4D2C25BEF30043E464 /* GitHubUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E4B2C25BEF30043E464 /* GitHubUserModel.xcdatamodeld */; };
 		599E0E532C26C2F50043E464 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E522C26C2F50043E464 /* UserCell.swift */; };
-		599E0E562C26C3C90043E464 /* GUTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E552C26C3C90043E464 /* GUTitleLabel.swift */; };
-		599E0E582C26C4780043E464 /* GUSecTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E572C26C4780043E464 /* GUSecTitleLabel.swift */; };
+		599E0E562C26C3C90043E464 /* GULabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E552C26C3C90043E464 /* GULabel.swift */; };
 		599E0E5A2C26C5EE0043E464 /* GUAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E592C26C5EE0043E464 /* GUAvatarImageView.swift */; };
 		599E0E5C2C26C6C70043E464 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E5B2C26C6C70043E464 /* Constants.swift */; };
 		599E0E602C26CE530043E464 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E5F2C26CE530043E464 /* UIView+Ext.swift */; };
 		599E0E622C270C690043E464 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E612C270C690043E464 /* UIViewController+Ext.swift */; };
 		599E0E642C270FCE0043E464 /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E632C270FCE0043E464 /* UITableView+Ext.swift */; };
 		599E0E662C2858970043E464 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E652C2858970043E464 /* PersistenceManager.swift */; };
+		599E0E6A2C3143020043E464 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E692C3143020043E464 /* UIImageView+Ext.swift */; };
+		599E0E6C2C314F4F0043E464 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E6B2C314F4F0043E464 /* SkeletonView.swift */; };
+		599E0E6E2C3183220043E464 /* GUIconImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E6D2C3183220043E464 /* GUIconImageView.swift */; };
+		599E0E702C31ACD60043E464 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599E0E6F2C31ACD60043E464 /* View+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,14 +53,17 @@
 		599E0E482C2525AB0043E464 /* GUImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUImageView.swift; sourceTree = "<group>"; };
 		599E0E4C2C25BEF30043E464 /* UserEntity.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UserEntity.xcdatamodel; sourceTree = "<group>"; };
 		599E0E522C26C2F50043E464 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
-		599E0E552C26C3C90043E464 /* GUTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUTitleLabel.swift; sourceTree = "<group>"; };
-		599E0E572C26C4780043E464 /* GUSecTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUSecTitleLabel.swift; sourceTree = "<group>"; };
+		599E0E552C26C3C90043E464 /* GULabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GULabel.swift; sourceTree = "<group>"; };
 		599E0E592C26C5EE0043E464 /* GUAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUAvatarImageView.swift; sourceTree = "<group>"; };
 		599E0E5B2C26C6C70043E464 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		599E0E5F2C26CE530043E464 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		599E0E612C270C690043E464 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		599E0E632C270FCE0043E464 /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
 		599E0E652C2858970043E464 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		599E0E692C3143020043E464 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
+		599E0E6B2C314F4F0043E464 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
+		599E0E6D2C3183220043E464 /* GUIconImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIconImageView.swift; sourceTree = "<group>"; };
+		599E0E6F2C31ACD60043E464 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,9 +152,9 @@
 		599E0E462C25227F0043E464 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				599E0E542C26C3980043E464 /* Labels */,
-				599E0E512C26C2C10043E464 /* Cells */,
 				599E0E4A2C254FD20043E464 /* Views */,
+				599E0E512C26C2C10043E464 /* Cells */,
+				599E0E542C26C3980043E464 /* Labels */,
 				599E0E472C25239A0043E464 /* Images */,
 			);
 			path = CustomViews;
@@ -159,6 +165,7 @@
 			children = (
 				599E0E482C2525AB0043E464 /* GUImageView.swift */,
 				599E0E592C26C5EE0043E464 /* GUAvatarImageView.swift */,
+				599E0E6D2C3183220043E464 /* GUIconImageView.swift */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -167,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				599E0E442C25103D0043E464 /* UserInfoView.swift */,
+				599E0E6B2C314F4F0043E464 /* SkeletonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,6 +185,8 @@
 				599E0E612C270C690043E464 /* UIViewController+Ext.swift */,
 				599E0E632C270FCE0043E464 /* UITableView+Ext.swift */,
 				599E0E5F2C26CE530043E464 /* UIView+Ext.swift */,
+				599E0E6F2C31ACD60043E464 /* View+Ext.swift */,
+				599E0E692C3143020043E464 /* UIImageView+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -192,8 +202,7 @@
 		599E0E542C26C3980043E464 /* Labels */ = {
 			isa = PBXGroup;
 			children = (
-				599E0E552C26C3C90043E464 /* GUTitleLabel.swift */,
-				599E0E572C26C4780043E464 /* GUSecTitleLabel.swift */,
+				599E0E552C26C3C90043E464 /* GULabel.swift */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -268,19 +277,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				599E0E6A2C3143020043E464 /* UIImageView+Ext.swift in Sources */,
 				599E0E492C2525AB0043E464 /* GUImageView.swift in Sources */,
 				599E0E622C270C690043E464 /* UIViewController+Ext.swift in Sources */,
-				599E0E562C26C3C90043E464 /* GUTitleLabel.swift in Sources */,
+				599E0E6C2C314F4F0043E464 /* SkeletonView.swift in Sources */,
+				599E0E562C26C3C90043E464 /* GULabel.swift in Sources */,
 				599E0E002C23D6550043E464 /* UserListVC.swift in Sources */,
 				599E0E5A2C26C5EE0043E464 /* GUAvatarImageView.swift in Sources */,
 				599E0DFC2C23D6550043E464 /* AppDelegate.swift in Sources */,
+				599E0E702C31ACD60043E464 /* View+Ext.swift in Sources */,
 				599E0E602C26CE530043E464 /* UIView+Ext.swift in Sources */,
 				599E0E4D2C25BEF30043E464 /* GitHubUserModel.xcdatamodeld in Sources */,
 				599E0E662C2858970043E464 /* PersistenceManager.swift in Sources */,
 				599E0E392C23FD680043E464 /* User.swift in Sources */,
+				599E0E6E2C3183220043E464 /* GUIconImageView.swift in Sources */,
 				599E0E532C26C2F50043E464 /* UserCell.swift in Sources */,
 				599E0E362C23FD460043E464 /* NetworkManager.swift in Sources */,
-				599E0E582C26C4780043E464 /* GUSecTitleLabel.swift in Sources */,
 				599E0DFE2C23D6550043E464 /* SceneDelegate.swift in Sources */,
 				599E0E412C2472B40043E464 /* GUError.swift in Sources */,
 				599E0E322C23FD080043E464 /* UserInfoVC.swift in Sources */,
@@ -430,7 +442,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = W3573ZKFZD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GHUsers/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

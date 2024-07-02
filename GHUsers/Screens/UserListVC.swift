@@ -24,9 +24,8 @@ class UserListVC: UITableViewController {
 		super.viewWillAppear(animated)
 		loadUsers()
 	}
-
 	
-	func configureTableView() {
+	private func configureTableView() {
 		tableView.frame         = view.bounds // fill the whole screen
 		tableView.rowHeight     = 80
 		tableView.delegate      = self
@@ -34,7 +33,7 @@ class UserListVC: UITableViewController {
 		tableView.register(UserCell.self, forCellReuseIdentifier: UserCell.reuseID)
 	}
 	
-	func configureSearchController() {
+	private func configureSearchController() {
 		searchController.searchResultsUpdater 					= self
 		searchController.searchBar.placeholder 					= "Search Users"
 		searchController.obscuresBackgroundDuringPresentation 	= false
@@ -43,7 +42,7 @@ class UserListVC: UITableViewController {
 	}
 	
 	// Load users from Database
-	func loadUsers() {
+	private func loadUsers() {
 		PersistenceManager.retrieveUsers { [weak self] result in
 			guard let self else { return }
 			
@@ -66,7 +65,7 @@ class UserListVC: UITableViewController {
 	}
 	
 	// Fetch users from Internet
-	func fetchUsers() {
+	private func fetchUsers() {
 		tableView.showLoadingFooter()
 		NetworkManager.shared.getUsers(sinceID: sinceID) { [weak self] result in
 			guard let self else { return }
@@ -88,24 +87,6 @@ class UserListVC: UITableViewController {
 		}
 	}
 	
-	func checkUserSavedNote(user: User) -> Bool {
-		var savedNote: Bool = false
-		PersistenceManager.retrieveUserInfo { [weak self] result in
-			guard let self else { return }
-			
-			switch result {
-				case .success(let fetchedUserInfo):
-					if let index = fetchedUserInfo.firstIndex(where: { $0.login == user.login }) {
-						savedNote = fetchedUserInfo[index].note?.isEmpty == false
-					}
-					
-				case .failure( _):
-					savedNote = false
-			}
-		}
-		return savedNote
-	}
-	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return (isFiltering ? filteredUsers : users).count
 	}
@@ -113,8 +94,7 @@ class UserListVC: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.reuseID) as! UserCell
 		let user = (isFiltering ? filteredUsers : users)[indexPath.row]
-		let savedNote: Bool = checkUserSavedNote(user: user)
-		cell.set(user: user, savedNote: savedNote)
+		cell.set(user: user, at: indexPath)
 		return cell
 	}
 	
@@ -144,9 +124,11 @@ extension UserListVC: UISearchResultsUpdating {
 	}
 	
 	func filterContentForSearchText(_ searchText: String) {
+		let searchWords = searchText.lowercased().split(separator: " ").map { String($0) }
+		
 		filteredUsers = users.filter { user in
-			user.login.lowercased().contains(searchText.lowercased()) ||
-			user.login.lowercased() == searchText.lowercased()
+			let combinedString = (user.login + " " + (user.note ?? "")).lowercased()
+			return searchWords.allSatisfy { combinedString.contains($0) }
 		}
 		tableView.reloadData()
 	}

@@ -3,6 +3,10 @@
 
 import Foundation
 
+enum updateUserType {
+	case note, seen
+}
+
 enum PersistenceManager {
 	static private let defaults = UserDefaults.standard
 	
@@ -45,6 +49,28 @@ enum PersistenceManager {
 						!storedUsers.contains { $0.login == newUser.login }
 					}
 					storedUsers.append(contentsOf: newUniqueUsers)
+					if let error = saveUsers(users: storedUsers) {
+						print("Can't save users error: \(error)")
+					}
+					
+				case .failure(let error):
+					print("Can't save retrieve error: \(error)")
+			}
+		}
+	}
+	
+	static func updateUser(info userInfo: UserInfo, dataType: updateUserType) {
+		retrieveUsers { result in
+			switch result {
+				case .success(var storedUsers):
+					if let index = storedUsers.firstIndex(where: { $0.login == userInfo.login }) {
+						if dataType == .note {
+							storedUsers[index].note = userInfo.note ?? ""
+						} else {
+							storedUsers[index].isSeen = true
+						}
+					}
+					
 					if let error = saveUsers(users: storedUsers) {
 						print("Can't save users error: \(error)")
 					}

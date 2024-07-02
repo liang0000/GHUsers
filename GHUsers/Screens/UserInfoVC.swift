@@ -6,7 +6,7 @@ import SwiftUI
 
 class UserInfoVC: UIViewController {
 	var username: String!
-	var info: UserInfo?
+	var userInfo: UserInfo?
 	
 	init(username: String) {
 		super.init(nibName: nil, bundle: nil)
@@ -25,14 +25,15 @@ class UserInfoVC: UIViewController {
 	}
 	
 	// Load users from Database
-	func loadUserInfo() {
+	private func loadUserInfo() {
 		PersistenceManager.retrieveUserInfo { [weak self] result in
 			guard let self else { return }
 			
 			switch result {
 				case .success(let storedUserInfo):
 					if let index = storedUserInfo.firstIndex(where: { $0.login == self.username }) {
-						info = storedUserInfo[index]
+						userInfo = storedUserInfo[index]
+						PersistenceManager.updateUser(info: storedUserInfo[index], dataType: .seen)
 						DispatchQueue.main.async {
 							self.setupProfileView()
 						}
@@ -50,13 +51,14 @@ class UserInfoVC: UIViewController {
 	}
 	
 	// Load users from Internet
-	func getUserInfo() {
+	private func getUserInfo() {
 		showLoadingView()
 		NetworkManager.shared.getUserInfo(username: username) { [weak self] result in
 			guard let self = self else { return }
 			switch result {
 				case .success(let info):
-					self.info = info
+					self.userInfo = info
+					PersistenceManager.updateUser(info: info, dataType: .seen) // save user as seen
 					DispatchQueue.main.async {
 						self.setupProfileView()
 					}
@@ -76,22 +78,24 @@ class UserInfoVC: UIViewController {
 	}
 	
 	// Save note to Database
-	func saveNote(_ note: String) {
-		guard var info = info else { return }
-		info.note = note
-		PersistenceManager.updateUserInfo(info: info) { [weak self] error in
+	private func saveNote(_ note: String) {
+		guard var userInfo = userInfo else { return }
+		userInfo.note = note
+		
+		PersistenceManager.updateUserInfo(info: userInfo) { [weak self] error in
 			guard let self = self else { return }
 			if let error {
 				showAlert(title: "Something went wrong", message: error.rawValue)
 				return
 			}
 			
+			PersistenceManager.updateUser(info: userInfo, dataType: .note)
 			showToast(message: "Successfully Saved")
 		}
 	}
 	
-	func setupProfileView() {
-		guard let info = info else { return }
+	private func setupProfileView() {
+		guard let info = userInfo else { return }
 		
 		let swiftUIView = UserInfoView(info: info, saveAction: saveNote)
 		let hostingController = UIHostingController(rootView: swiftUIView)

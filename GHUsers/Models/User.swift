@@ -9,4 +9,6 @@ struct User: Codable, Hashable  {
 	var login: String
 	var avatarUrl: String
 	var type: String
+	var note: String?
+	var isSeen: Bool?
 }

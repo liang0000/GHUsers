@@ -15,7 +15,7 @@ struct UserInfoView: View {
 	}
 	
 	var body: some View {
-		VStack {
+		ScrollView {
 			GUImage(url: info.avatarUrl)
 				.scaledToFit()
 				.frame(maxWidth: .infinity, maxHeight: 130)
@@ -46,6 +46,7 @@ struct UserInfoView: View {
 				
 				GroupBox {
 					TextEditor(text: $enteredNote)
+						.frame(minHeight: 170, maxHeight: 170)
 				}
 			}
 			.padding()
@@ -53,8 +54,9 @@ struct UserInfoView: View {
 			Button("Save") {
 				saveAction(enteredNote)
 			}
+			.padding(.bottom, 20)
 		}
-		.frame(maxHeight: .infinity, alignment: .top)
+		.onTapGesture { hideKeyboard() }
 	}
 }
 
