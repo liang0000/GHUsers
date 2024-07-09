@@ -25,14 +25,15 @@ extension UIViewController {
 		toastLabel.font				= UIFont.systemFont(ofSize: 14)
 		toastLabel.numberOfLines 	= 0
 		toastLabel.alpha 			= 0.0
-		toastLabel.layer.cornerRadius = 10
+		toastLabel.layer.cornerRadius = 6
 		toastLabel.clipsToBounds 	= true
 		
 		let maxSizeTitle = CGSize(width: self.view.bounds.size.width - 40, height: self.view.bounds.size.height)
 		var expectedSizeTitle = toastLabel.sizeThatFits(maxSizeTitle)
 		expectedSizeTitle = CGSize(width: min(maxSizeTitle.width, expectedSizeTitle.width), height: min(maxSizeTitle.height, expectedSizeTitle.height))
-		toastLabel.frame = CGRect(x: 20, y: self.view.bounds.size.height - 100, width: self.view.bounds.size.width - 40, height: expectedSizeTitle.height + 20)
+		toastLabel.frame = CGRect(x: 20, y: self.view.bounds.size.height - 100, width: self.view.bounds.size.width - 120, height: expectedSizeTitle.height + 20)
 		toastLabel.center.x = self.view.center.x
+		toastLabel.center.y = self.view.center.y
 		
 		self.view.addSubview(toastLabel)
 		

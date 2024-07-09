@@ -21,28 +21,32 @@ class UserInfoVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .systemBackground
+		createDismissKeyboardTapGesture()
 		loadUserInfo()
 	}
 	
-	// Load users from Database
+	private func createDismissKeyboardTapGesture() {
+		let tap = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+		view.addGestureRecognizer(tap)
+	}
+	
+	// Load user info from Database
 	private func loadUserInfo() {
-		PersistenceManager.retrieveUserInfo { [weak self] result in
+		CoreDataStack.shared.getUserInfo { [weak self] result in
 			guard let self else { return }
 			
 			switch result {
 				case .success(let storedUserInfo):
 					if let index = storedUserInfo.firstIndex(where: { $0.login == self.username }) {
-						userInfo = storedUserInfo[index]
-						PersistenceManager.updateUser(info: storedUserInfo[index], dataType: .seen)
+						self.userInfo = storedUserInfo[index]
 						DispatchQueue.main.async {
 							self.setupProfileView()
 						}
 					} else {
-						getUserInfo()
+						self.fetchUserInfo()
 					}
 					
 				case .failure(let error):
-					print(error)
 					DispatchQueue.main.async {
 						self.showAlert(title: "Something went wrong.", message: error.rawValue)
 					}
@@ -50,47 +54,44 @@ class UserInfoVC: UIViewController {
 		}
 	}
 	
-	// Load users from Internet
-	private func getUserInfo() {
+	// Fetch user info from Internet
+	private func fetchUserInfo() {
 		showLoadingView()
 		NetworkManager.shared.getUserInfo(username: username) { [weak self] result in
-			guard let self = self else { return }
+			guard let self else { return }
+			
 			switch result {
-				case .success(let info):
-					self.userInfo = info
-					PersistenceManager.updateUser(info: info, dataType: .seen) // save user as seen
+				case .success(let fetchedUserInfo):
+					self.userInfo = fetchedUserInfo
+					CoreDataStack.shared.updateUser(info: fetchedUserInfo, dataType: .seen) // save user as seen
+					CoreDataStack.shared.saveUserInfo(info: fetchedUserInfo)
 					DispatchQueue.main.async {
 						self.setupProfileView()
 					}
-					PersistenceManager.updateUserInfo(info: info) { [weak self] error in
-						guard let self = self else { return }
-						if let error {
-							showAlert(title: "Something went wrong", message: error.rawValue)
-						}
-					}
 				case .failure(let error):
-					showAlert(title: "Something went wrong", message: error.rawValue) {
+					self.showAlert(title: "Something went wrong", message: error.rawValue) {
 						self.navigationController?.popViewController(animated: true)
 					}
 			}
-			dismissLoadingView()
+			self.dismissLoadingView()
 		}
 	}
 	
 	// Save note to Database
 	private func saveNote(_ note: String) {
-		guard var userInfo = userInfo else { return }
+		guard let userInfo = userInfo else { return }
 		userInfo.note = note
+		view.endEditing(true)
 		
-		PersistenceManager.updateUserInfo(info: userInfo) { [weak self] error in
-			guard let self = self else { return }
+		CoreDataStack.shared.updateUserInfo(info: userInfo) { [weak self] error in
+			guard let self else { return }
 			if let error {
-				showAlert(title: "Something went wrong", message: error.rawValue)
+				self.showAlert(title: "Something went wrong", message: error.rawValue)
 				return
 			}
 			
-			PersistenceManager.updateUser(info: userInfo, dataType: .note)
-			showToast(message: "Successfully Saved")
+			CoreDataStack.shared.updateUser(info: userInfo, dataType: .note)
+			self.showToast(message: "Successfully Saved")
 		}
 	}
 	

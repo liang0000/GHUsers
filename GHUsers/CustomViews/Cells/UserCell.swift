@@ -36,7 +36,7 @@ class UserCell: UITableViewCell {
 		self.user = user
 		let hasNote: Bool = user.note == nil || user.note?.isEmpty == true
 		
-		avatarImageView.loadImage(fromURL: user.avatarUrl, at: indexPath)
+		avatarImageView.loadImage(fromURL: user.avatarUrl!, at: indexPath)
 		usernameLabel.setText(user.login)
 		detailLabel.setText(user.note)
 		noteIcon.isHidden = hasNote

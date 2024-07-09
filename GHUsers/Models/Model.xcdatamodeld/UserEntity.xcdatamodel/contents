@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="category">
         <attribute name="avatarUrl" attributeType="String"/>
         <attribute name="id" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isSeen" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="login" attributeType="String"/>
         <attribute name="note" attributeType="String"/>
-        <attribute name="type" attributeType="String"/>
     </entity>
-    <entity name="UserInfoEntity" representedClassName="UserInfoEntity" syncable="YES" codeGenerationType="class">
+    <entity name="UserInfo" representedClassName="UserInfo" syncable="YES" codeGenerationType="category">
         <attribute name="avatarUrl" attributeType="String"/>
         <attribute name="bio" optional="YES" attributeType="String"/>
         <attribute name="blog" optional="YES" attributeType="String"/>

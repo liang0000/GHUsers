@@ -16,7 +16,7 @@ struct UserInfoView: View {
 	
 	var body: some View {
 		ScrollView {
-			GUImage(url: info.avatarUrl)
+			GUImage(url: info.avatarUrl!)
 				.scaledToFit()
 				.frame(maxWidth: .infinity, maxHeight: 130)
 				.clipShape(Circle())
@@ -56,7 +56,6 @@ struct UserInfoView: View {
 			}
 			.padding(.bottom, 20)
 		}
-		.onTapGesture { hideKeyboard() }
 	}
 }
 

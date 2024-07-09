@@ -2,83 +2,55 @@
 
 
 import UIKit
+import CoreData
 
 class NetworkManager {
-	static let shared 	= NetworkManager()
-	private let baseURL = "https://api.github.com/users"
-	let cache 			= NSCache<NSString, UIImage>()
-	let decoder         = JSONDecoder()
+	static let shared 			= NetworkManager()
+	private let baseURL 		= "https://api.github.com/users"
+	let cache 					= NSCache<NSString, UIImage>()
+	let decoder: JSONDecoder 	= {
+		let decoder = JSONDecoder()
+		decoder.keyDecodingStrategy = .convertFromSnakeCase
+		decoder.userInfo[CodingUserInfoKey.context!] = CoreDataStack.shared.context
+		return decoder
+	}()
 	
-	private init() {
-		decoder.keyDecodingStrategy  = .convertFromSnakeCase
+	private init() {}
+	
+	func fetch<T: Codable>(endpoint: String, completed: @escaping (Result<T, GUError>) -> Void) {
+		guard let url = URL(string: baseURL + endpoint) else {
+			completed(.failure(.invalidURL))
+			return
+		}
+		
+		let task = URLSession.shared.dataTask(with: url) { data, response, error in
+			if let _ = error {
+				completed(.failure(.unableToComplete))
+				return
+			}
+			
+			guard let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data else {
+				completed(.failure(.invalidResponse))
+				return
+			}
+			
+			do {
+				let decodedResponse = try self.decoder.decode(T.self, from: data)
+				completed(.success(decodedResponse))
+			} catch {
+				completed(.failure(.invalidData))
+			}
+		}
+		
+		task.resume()
 	}
 	
 	func getUsers(sinceID: Int, completed: @escaping (Result<[User], GUError>) -> Void) {
-		let endpoint = baseURL + "?since=\(sinceID)"
-		guard let url = URL(string: endpoint) else {
-			completed(.failure(.invalidURL))
-			return
-		}
-		
-		let task = URLSession.shared.dataTask(with: url) { data, response, error in
-			if let _ = error {
-				completed(.failure(.unableToComplete))
-				return
-			}
-			
-			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-				completed(.failure(.invalidResponse))
-				return
-			}
-			
-			guard let data else {
-				completed(.failure(.invalidData))
-				return
-			}
-			
-			do {
-				let decodedResponse = try self.decoder.decode([User].self, from: data)
-				completed(.success(decodedResponse))
-			} catch {
-				completed(.failure(.invalidData))
-			}
-		}
-		
-		task.resume()
+		fetch(endpoint: "?since=\(sinceID)", completed: completed)
 	}
 	
 	func getUserInfo(username: String, completed: @escaping (Result<UserInfo, GUError>) -> Void) {
-		let endpoint = baseURL + "/\(username)"
-		guard let url = URL(string: endpoint) else {
-			completed(.failure(.invalidURL))
-			return
-		}
-		
-		let task = URLSession.shared.dataTask(with: url) { data, response, error in
-			if let _ = error {
-				completed(.failure(.unableToComplete))
-				return
-			}
-			
-			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-				completed(.failure(.invalidResponse))
-				return
-			}
-			
-			guard let data else {
-				completed(.failure(.invalidData))
-				return
-			}
-			
-			do {
-				let decodedResponse = try self.decoder.decode(UserInfo.self, from: data)
-				completed(.success(decodedResponse))
-			} catch {
-				completed(.failure(.invalidData))
-			}
-		}
-		
-		task.resume()
+		fetch(endpoint: "/\(username)", completed: completed)
 	}
 	
 	func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
@@ -94,8 +66,8 @@ class NetworkManager {
 		let task = URLSession.shared.dataTask(with: url) { data, response, error in
 			guard error == nil,
 				  let response = response as? HTTPURLResponse, response.statusCode == 200,
-				  let data = data,
-				  let image = UIImage(data: data) else {
+				  let data = data, let image = UIImage(data: data) else {
+				completed(nil)
 				return
 			}
 			

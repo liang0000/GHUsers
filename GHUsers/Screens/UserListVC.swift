@@ -17,7 +17,6 @@ class UserListVC: UITableViewController {
 		super.viewDidLoad()
 		configureTableView()
 		configureSearchController()
-		loadUsers()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -43,22 +42,23 @@ class UserListVC: UITableViewController {
 	
 	// Load users from Database
 	private func loadUsers() {
-		PersistenceManager.retrieveUsers { [weak self] result in
+		CoreDataStack.shared.getUsers { [weak self] result in
 			guard let self else { return }
 			
 			switch result {
-				case .success(let users):
-					sinceID = users.last?.id ?? sinceID
-					if users.isEmpty {
+				case .success(let storedUsers):
+					self.sinceID = Int(storedUsers.last?.id ?? Int64(self.sinceID))
+					if storedUsers.isEmpty {
 						self.fetchUsers()
 					} else {
-						self.users = users
+						self.users = storedUsers
 						DispatchQueue.main.async {
 							self.tableView.reloadData()
 						}
 					}
+					
 				case .failure(let error):
-					fetchUsers()
+					self.fetchUsers()
 					print("Can't retrieve users error: \(error)")
 			}
 		}
@@ -72,14 +72,14 @@ class UserListVC: UITableViewController {
 			
 			switch result {
 				case .success(let fetchedUsers):
-					sinceID = fetchedUsers.last?.id ?? sinceID
-					users.append(contentsOf: fetchedUsers)
-					PersistenceManager.updateUsers(users: fetchedUsers)
+					self.sinceID = Int(fetchedUsers.last?.id ?? Int64(self.sinceID))
+					self.users.append(contentsOf: fetchedUsers)
+					CoreDataStack.shared.saveUsers(users: fetchedUsers)
 					DispatchQueue.main.async {
 						self.tableView.reloadData()
 					}
 				case .failure(let error):
-					showAlert(title: "Something went wrong", message: error.rawValue)
+					self.showAlert(title: "Something went wrong", message: error.rawValue)
 			}
 			DispatchQueue.main.async {
 				self.tableView.hideLoadingFooter()
@@ -100,7 +100,7 @@ class UserListVC: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // after select a cell
 		let user = (isFiltering ? filteredUsers : users)[indexPath.row]
-		let infoVC = UserInfoVC(username: user.login)
+		let infoVC = UserInfoVC(username: user.login!)
 		show(infoVC, sender: self)
 	}
 	
@@ -127,12 +127,9 @@ extension UserListVC: UISearchResultsUpdating {
 		let searchWords = searchText.lowercased().split(separator: " ").map { String($0) }
 		
 		filteredUsers = users.filter { user in
-			let combinedString = (user.login + " " + (user.note ?? "")).lowercased()
+			let combinedString = (user.login! + " " + (user.note ?? "")).lowercased()
 			return searchWords.allSatisfy { combinedString.contains($0) }
 		}
 		tableView.reloadData()
 	}
 }
-
-
-
