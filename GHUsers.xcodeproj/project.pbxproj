@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		597E173F2C4C1B8B000D2F11 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597E173E2C4C1B8B000D2F11 /* NetworkMonitor.swift */; };
+		597E17452C4D0F16000D2F11 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597E17442C4D0F16000D2F11 /* Reachability.swift */; };
 		5993AAE62C3A9D0400690555 /* UserInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5993AAE22C3A9D0400690555 /* UserInfo+CoreDataClass.swift */; };
 		5993AAE82C3A9D0400690555 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5993AAE42C3A9D0400690555 /* User+CoreDataClass.swift */; };
 		5993AAFE2C3C2C8F00690555 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5993AAFD2C3C2C8F00690555 /* NetworkManagerTests.swift */; };
@@ -46,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		597E173E2C4C1B8B000D2F11 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		597E17442C4D0F16000D2F11 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		5993AAE22C3A9D0400690555 /* UserInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5993AAE42C3A9D0400690555 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5993AAFB2C3C2C8F00690555 /* GHUsersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GHUsersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +158,8 @@
 			children = (
 				599E0E352C23FD460043E464 /* NetworkManager.swift */,
 				599E0E3D2C246D470043E464 /* CoreDataStack.swift */,
+				597E173E2C4C1B8B000D2F11 /* NetworkMonitor.swift */,
+				597E17442C4D0F16000D2F11 /* Reachability.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -357,6 +363,7 @@
 				599E0E4D2C25BEF30043E464 /* Model.xcdatamodeld in Sources */,
 				599E0E6E2C3183220043E464 /* GUIconImageView.swift in Sources */,
 				599E0E532C26C2F50043E464 /* UserCell.swift in Sources */,
+				597E17452C4D0F16000D2F11 /* Reachability.swift in Sources */,
 				599E0E362C23FD460043E464 /* NetworkManager.swift in Sources */,
 				599E0DFE2C23D6550043E464 /* SceneDelegate.swift in Sources */,
 				599E0E412C2472B40043E464 /* GUError.swift in Sources */,
@@ -365,6 +372,7 @@
 				599E0E642C270FCE0043E464 /* UITableView+Ext.swift in Sources */,
 				599E0E452C25103D0043E464 /* UserInfoView.swift in Sources */,
 				599E0E5C2C26C6C70043E464 /* Constants.swift in Sources */,
+				597E173F2C4C1B8B000D2F11 /* NetworkMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

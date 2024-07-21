@@ -9,14 +9,20 @@ class UserListVC: UITableViewController {
 	var users: [User] 			= []
 	var filteredUsers: [User] 	= []
 	var sinceID: Int 			= 0
+	var lastLoadTime: Date?
 	var isFiltering: Bool {
 		searchController.isActive && !searchController.searchBar.text!.isEmpty
+	}
+	
+	deinit {
+		NotificationCenter.default.removeObserver(self, name: .networkStatusChanged, object: nil)
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		configureTableView()
 		configureSearchController()
+		setupNetworkChangeListener()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -40,8 +46,26 @@ class UserListVC: UITableViewController {
 		definesPresentationContext 								= true
 	}
 	
+	private func setupNetworkChangeListener() {
+		NotificationCenter.default.addObserver(self, selector: #selector(networkStatusChanged), name: .networkStatusChanged, object: nil)
+	}
+	
+	@objc private func networkStatusChanged() {
+		if NetworkMonitor.shared.isConnected && shouldLoadUsers() {
+			loadUsers()
+		}
+	}
+	
+	private func shouldLoadUsers() -> Bool {
+		guard let lastLoadTime = lastLoadTime else {
+			return true
+		}
+		return Date().timeIntervalSince(lastLoadTime) > 10 // adjust the interval
+	}
+	
 	// Load users from Database
 	private func loadUsers() {
+		lastLoadTime = Date()
 		CoreDataStack.shared.getUsers { [weak self] result in
 			guard let self else { return }
 			

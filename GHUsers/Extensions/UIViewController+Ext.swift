@@ -6,6 +6,8 @@ import UIKit
 fileprivate var containerView: UIView!
 
 extension UIViewController {
+	private static var loadingContainerView: UIView?
+	
 	func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
 		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
@@ -49,7 +51,7 @@ extension UIViewController {
 	}
 
 	func showLoadingView() {
-		containerView = UIView(frame: view.bounds) // fill the whole screen
+		let containerView = UIView(frame: view.bounds) // fill the whole screen
 		view.addSubview(containerView)
 		
 		containerView.backgroundColor = .systemBackground
@@ -69,12 +71,13 @@ extension UIViewController {
 		])
 		
 		activityIndicator.startAnimating()
+		UIViewController.loadingContainerView = containerView
 	}
 	
 	func dismissLoadingView() {
 		DispatchQueue.main.async {
-			containerView.removeFromSuperview()
-			containerView = nil
+			UIViewController.loadingContainerView?.removeFromSuperview()
+			UIViewController.loadingContainerView = nil
 		}
 	}
 }

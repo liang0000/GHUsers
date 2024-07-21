@@ -15,42 +15,71 @@ class NetworkManager {
 		return decoder
 	}()
 	
+	private let operationQueue: OperationQueue = {
+		let queue = OperationQueue()
+		queue.maxConcurrentOperationCount = 1 // serial queue
+		return queue
+	}()
+	
 	private init() {}
 	
-	func fetch<T: Codable>(endpoint: String, completed: @escaping (Result<T, GUError>) -> Void) {
+	private func handleRetry<T: Codable>(endpoint: String, retryCount: Int, completed: @escaping (Result<T, GUError>) -> Void) {
+		let delay = pow(2.0, Double(retryCount)) // power of
+		DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+			self.fetchWithRetry(endpoint: endpoint, retryCount: retryCount + 1, completed: completed)
+		}
+	}
+	
+	func fetchWithRetry<T: Codable>(endpoint: String, retryCount: Int = 0, completed: @escaping (Result<T, GUError>) -> Void) {
 		guard let url = URL(string: baseURL + endpoint) else {
 			completed(.failure(.invalidURL))
 			return
 		}
 		
-		let task = URLSession.shared.dataTask(with: url) { data, response, error in
-			if let _ = error {
-				completed(.failure(.unableToComplete))
-				return
+		let taskOperation = BlockOperation {
+			let task = URLSession.shared.dataTask(with: url) { data, response, error in
+				if let _ = error {
+					if retryCount < 5 { // Exponential Backoff for retrying
+						self.handleRetry(endpoint: endpoint, retryCount: retryCount, completed: completed)
+					} else {
+						completed(.failure(.unableToComplete))
+					}
+					return
+				}
+				
+				guard let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data else {
+					if retryCount < 5 {
+						self.handleRetry(endpoint: endpoint, retryCount: retryCount, completed: completed)
+					} else {
+						completed(.failure(.invalidResponse))
+					}
+					return
+				}
+				
+				do {
+					let decodedResponse = try self.decoder.decode(T.self, from: data)
+					completed(.success(decodedResponse))
+				} catch {
+					if retryCount < 5 {
+						self.handleRetry(endpoint: endpoint, retryCount: retryCount, completed: completed)
+					} else {
+						completed(.failure(.invalidData))
+					}
+				}
 			}
 			
-			guard let response = response as? HTTPURLResponse, response.statusCode == 200, let data = data else {
-				completed(.failure(.invalidResponse))
-				return
-			}
-			
-			do {
-				let decodedResponse = try self.decoder.decode(T.self, from: data)
-				completed(.success(decodedResponse))
-			} catch {
-				completed(.failure(.invalidData))
-			}
+			task.resume()
 		}
 		
-		task.resume()
+		operationQueue.addOperation(taskOperation) // limited to 1 request at a time
 	}
 	
 	func getUsers(sinceID: Int, completed: @escaping (Result<[User], GUError>) -> Void) {
-		fetch(endpoint: "?since=\(sinceID)", completed: completed)
+		fetchWithRetry(endpoint: "?since=\(sinceID)", completed: completed)
 	}
 	
 	func getUserInfo(username: String, completed: @escaping (Result<UserInfo, GUError>) -> Void) {
-		fetch(endpoint: "/\(username)", completed: completed)
+		fetchWithRetry(endpoint: "/\(username)", completed: completed)
 	}
 	
 	func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {

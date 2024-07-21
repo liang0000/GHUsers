@@ -55,7 +55,7 @@ class NetworkManagerTests: XCTestCase {
 	func testInvalidData() {
 		let expectation = self.expectation(description: "Fetching with invalid data")
 		
-		networkManager.fetch(endpoint: "/invaliddata") { (result: Result<[User], GUError>) in
+		networkManager.fetchWithRetry(endpoint: "/invaliddata") { (result: Result<[User], GUError>) in
 			switch result {
 				case .success:
 					XCTFail("Expected failure for invalid data")
@@ -65,7 +65,7 @@ class NetworkManagerTests: XCTestCase {
 			expectation.fulfill()
 		}
 		
-		waitForExpectations(timeout: 5, handler: nil)
+		waitForExpectations(timeout: 32, handler: nil) // 1+1+2+4+8+16
 	}
 	
 	func testImageDownload() {

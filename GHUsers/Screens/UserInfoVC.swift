@@ -14,6 +14,10 @@ class UserInfoVC: UIViewController {
 		title           = username
 	}
 	
+	deinit {
+		NotificationCenter.default.removeObserver(self, name: .networkStatusChanged, object: nil)
+	}
+	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -23,11 +27,22 @@ class UserInfoVC: UIViewController {
 		view.backgroundColor = .systemBackground
 		createDismissKeyboardTapGesture()
 		loadUserInfo()
+		setupNetworkChangeListener()
 	}
 	
 	private func createDismissKeyboardTapGesture() {
 		let tap = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
 		view.addGestureRecognizer(tap)
+	}
+	
+	private func setupNetworkChangeListener() {
+		NotificationCenter.default.addObserver(self, selector: #selector(networkStatusChanged), name: .networkStatusChanged, object: nil)
+	}
+	
+	@objc private func networkStatusChanged() {
+		if NetworkMonitor.shared.isConnected {
+			loadUserInfo()
+		}
 	}
 	
 	// Load user info from Database
@@ -70,7 +85,9 @@ class UserInfoVC: UIViewController {
 					}
 				case .failure(let error):
 					self.showAlert(title: "Something went wrong", message: error.rawValue) {
-						self.navigationController?.popViewController(animated: true)
+						if self.userInfo == nil {
+							self.navigationController?.popViewController(animated: true)
+						}
 					}
 			}
 			self.dismissLoadingView()
