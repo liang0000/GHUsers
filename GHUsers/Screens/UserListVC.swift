@@ -9,6 +9,7 @@ class UserListVC: UITableViewController {
 	var users: [User] 			= []
 	var filteredUsers: [User] 	= []
 	var sinceID: Int 			= 0
+	var isFetchingUsers 		= false
 	var lastLoadTime: Date?
 	var isFiltering: Bool {
 		searchController.isActive && !searchController.searchBar.text!.isEmpty
@@ -90,9 +91,13 @@ class UserListVC: UITableViewController {
 	
 	// Fetch users from Internet
 	private func fetchUsers() {
+		guard !isFetchingUsers else { return }
+		isFetchingUsers = true
+		
 		tableView.showLoadingFooter()
 		NetworkManager.shared.getUsers(sinceID: sinceID) { [weak self] result in
 			guard let self else { return }
+			self.isFetchingUsers = false
 			
 			switch result {
 				case .success(let fetchedUsers):
