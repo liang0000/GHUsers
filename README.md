@@ -26,3 +26,37 @@
 <img src="https://github.com/user-attachments/assets/75c9ad7e-0571-45d4-94c5-2af5223b01eb" width="250">
 <img src="https://github.com/user-attachments/assets/b4d526dc-e0c3-419b-98d9-7b8fe9c86784" width="250">
 <img src="https://github.com/user-attachments/assets/ab5c64aa-da17-45c6-b3e6-7b9dd94aa7a1" width="250">
+
+### Foundation
+Code Clarification Commented
+iOS UI Best Practice
+Dark Mode Support
+Support iOS 14
+UIKit using Auto Layout
+Image is Cached
+No Third Party Libraries
+All network calls is queued and limited to 1 request at a time
+using MVVM
+
+### Implemented
+Core Data using Main Context and Background Context
+Unit Test
+Codable used
+Working in Offline if Data loaded previously
+No Internet Scenario is handled
+Error Handling
+Auto Data Loading when Internet Back
+show saved data first and show new data afterwards
+Saved Data is shown first before Data from Internet
+Pagination (Spinner when Loading)
+Image's Color Inverted for Every Fourth Item in List
+Note Icon on right when got Notes Saved
+Searchable (Including Username and Note, No Pagination)
+User Info Screen is done using SwiftUI
+Skeletons of Data while Loading
+Exponential Backoff when Reloading Data
+Fetch Data using Result Types
+CoreData Queries are Queued
+Item in List is Grayed Out a bit if the User Info is Seen
+
+
