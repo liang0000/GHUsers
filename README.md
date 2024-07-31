@@ -7,10 +7,13 @@
 ### Pagination, Skeleton Data Loading
 <img src="https://github.com/user-attachments/assets/aecd3001-d4d7-4632-9299-583eb3433bf1" width="250">
 <img src="https://github.com/user-attachments/assets/5ab50523-66f6-402f-8d3b-388ed31c4530" width="250">
+<img src="https://github.com/user-attachments/assets/5af3df0c-cd86-40dd-985b-2f93bd683414" width="250">
 
-### Search Name, Search Note
+
+### Search Name, Search Note, Auto Load when Internet Back
 <img src="https://github.com/user-attachments/assets/68114dc9-5b31-4a6a-824c-cda531e52409" width="250">
 <img src="https://github.com/user-attachments/assets/ec1900ce-472d-4801-a69d-dcf3bcb753a8" width="250">
+
 
 ## User Info Screen
 ### User Info, Note, Toast Message
