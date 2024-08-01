@@ -27,36 +27,40 @@
 <img src="https://github.com/user-attachments/assets/b4d526dc-e0c3-419b-98d9-7b8fe9c86784" width="250">
 <img src="https://github.com/user-attachments/assets/ab5c64aa-da17-45c6-b3e6-7b9dd94aa7a1" width="250">
 
-### Foundation
-Code Clarification Commented
-iOS UI Best Practice
-Dark Mode Support
-Support iOS 14
-UIKit using Auto Layout
-Image is Cached
-No Third Party Libraries
-All network calls is queued and limited to 1 request at a time
-using MVVM
+## Foundation
+<p>
+Code Clarification Commented <br>
+iOS UI Best Practice <br>
+Dark Mode Support <br>
+Support iOS 14 <br>
+UIKit using Auto Layout <br>
+Image is Cached <br>
+No Third Party Libraries <br>
+MVVM <br>
+All network calls is queued and limited to 1 request at a time <br>
+</p>
 
-### Implemented
-Core Data using Main Context and Background Context
-Unit Test
-Codable used
-Working in Offline if Data loaded previously
-No Internet Scenario is handled
-Error Handling
-Auto Data Loading when Internet Back
-show saved data first and show new data afterwards
-Saved Data is shown first before Data from Internet
-Pagination (Spinner when Loading)
-Image's Color Inverted for Every Fourth Item in List
-Note Icon on right when got Notes Saved
-Searchable (Including Username and Note, No Pagination)
-User Info Screen is done using SwiftUI
-Skeletons of Data while Loading
-Exponential Backoff when Reloading Data
-Fetch Data using Result Types
-CoreData Queries are Queued
-Item in List is Grayed Out a bit if the User Info is Seen
+## Implemented
+<p>
+Core Data using Main Context and Background Context <br>
+Unit Test <br>
+Codable used <br>
+Working in Offline if Data loaded previously <br>
+No Internet Scenario is handled <br>
+Error Handling <br>
+Auto Data Loading when Internet Back <br>
+show saved data first and show new data afterwards <br>
+Saved Data is shown first before Data from Internet <br>
+Pagination (Spinner when Loading) <br>
+Image's Color Inverted for Every Fourth Item in List <br>
+Note Icon on right when got Notes Saved <br>
+Searchable (Including Username and Note, No Pagination) <br>
+User Info Screen is done using SwiftUI <br>
+Skeletons of Data while Loading <br>
+Exponential Backoff when Reloading Data <br>
+Fetch Data using Result Types <br>
+CoreData Queries are Queued <br>
+Item in List is Grayed Out a bit if the User Info is Seen <br>
+</p>
 
 
